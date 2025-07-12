@@ -1,15 +1,14 @@
 <?php
-define('DB_SERVER', '127.0.0.1:3308');
+$host = 'sql8.freesqldatabase.com';  // Replace with your host
+$port = 3306;
+$user = 'sql8789664';                // From email
+$pass = 'EzAcq4CUXs';             // From email
+$db   = 'sql8789664';                // DB name from email
 
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'db_video');
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
-$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME); // Use constants
 if (!$conn) {
-    die('Connection failed: ' . mysqli_connect_error());
+    die("❌ Connection failed: " . mysqli_connect_error());
 }
 
-// For debugging only; remove in production
-//echo 'Connected successfully';
-?>
+echo "✅ Connected to FreeSQLDatabase.com!";

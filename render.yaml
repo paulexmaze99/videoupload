@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: videoupload
+    env: static
+    buildCommand: ""
+    staticPublishPath: .
+    headers:
+      - source: /*
+        headers:
+          - key: "Access-Control-Allow-Origin"
+            value: "*"
+    nginx:
+      clientMaxBodySize: 512M

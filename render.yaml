@@ -3,7 +3,7 @@ services:
     name: videoupload
     env: static
     buildCommand: ""
-    staticPublishPath: .
+    staticPublishPath: ./
     headers:
       - source: /*
         headers:

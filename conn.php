@@ -1,15 +1,15 @@
 <?php
-define('DB_SERVER', '127.0.0.1:3308');
+$host = '127.0.0.1';  // NOT '127.0.0.1:3308'
+$port = 3308;         // DBngin shows this in the UI
+$user = 'root';
+$pass = '';           // leave blank unless you set a password
+$db   = 'db_video';   // or any existing DB name
 
-define('DB_USERNAME', 'root');
-define('DB_PASSWORD', '');
-define('DB_NAME', 'db_video');
+$conn = mysqli_connect($host, $user, $pass, $db, $port);
 
-$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME); // Use constants
 if (!$conn) {
-    die('Connection failed: ' . mysqli_connect_error());
+    die("❌ Connection failed: " . mysqli_connect_error());
 }
 
-// For debugging only; remove in production
-//echo 'Connected successfully';
+echo "✅ Connected successfully!";
 ?>

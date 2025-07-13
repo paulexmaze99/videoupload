@@ -2,7 +2,14 @@
  date_default_timezone_set('Asia/Manila');
  require_once 'conn.php';
 
+ if ($_SERVER['REQUEST_URI'] === '/health') {
+    echo 'OK';
+    exit;
+}
+
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">

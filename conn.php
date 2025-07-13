@@ -1,13 +1,21 @@
 <?php
-$host = 'sql8.freesqldatabase.com';
-$port = 3306;
-$user = 'sql8789664';
-$pass = 'EzAcq4CUXs';
-$db   = 'sql8789664';
+// Load local .env variables (for localhost testing)
+if (file_exists(__DIR__ . '/.env')) {
+    $lines = file(__DIR__ . '/.env');
+    foreach ($lines as $line) {
+        if (trim($line) && strpos($line, '=') !== false) {
+            putenv(trim($line));
+        }
+    }
+}
 
-$conn = mysqli_connect($host, $user, $pass, $db, $port);
+$host = getenv('DB_HOST');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
+$dbname = getenv('DB_NAME');
 
-if (!$conn) {
-    die("❌ Connection failed: " . mysqli_connect_error());
+$conn = new mysqli($host, $user, $pass, $dbname);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>

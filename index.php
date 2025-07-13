@@ -1,32 +1,71 @@
 <?php
-require_once 'conn.php';
-$query = $conn->query("SELECT * FROM video ORDER BY id DESC");
+ date_default_timezone_set('Asia/Manila');
+ require_once 'conn.php';
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cloud Video Upload</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body class="p-4">
-    <div class="container">
-        <h2 class="text-primary mb-4">Uploaded Videos</h2>
-        <form action="upload.php" method="POST" enctype="multipart/form-data" class="mb-4">
-            <input type="file" name="video" accept="video/*" required class="form-control mb-2">
-            <input type="text" name="name" placeholder="Video Name" required class="form-control mb-2">
-            <button type="submit" class="btn btn-success">Upload</button>
-        </form>
-        <hr>
-        <?php while($row = $query->fetch_assoc()): ?>
-            <div class="mb-4">
-                <h5><?= htmlspecialchars($row['name']) ?></h5>
-                <video width="100%" height="300" controls>
-                    <source src="<?= htmlspecialchars($row['url']) ?>" type="video/mp4">
-                </video>
-            </div>
-        <?php endwhile; ?>
-    </div>
+	<head>
+		<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1"/>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+	</head>
+<body>
+
+	<div class="col-md-3"></div>
+	<div class="col-md-6 well">
+		<h3 class="text-primary"> Video Upload</h3>
+		<hr style="border-top:1px dotted #ccc;"/>
+		<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#form_modal"><span class="glyphicon glyphicon-plus"></span> Add Video</button>
+		<br /><br />
+		<hr style="border-top:3px solid #ccc;"/>
+		<?php
+			require 'conn.php';
+			
+			$query = mysqli_query($conn, "SELECT * FROM `video` ORDER BY `video_id` DESC") or die('connection failed');
+			while($fetch = mysqli_fetch_array($query)){
+		?>
+		<div class="col-md-12">
+			<div class="col-md-4" style="word-wrap:break-word;">
+				<br />
+				<h4>Video Name</h4>
+				<h5 class="text-primary"><?php echo $fetch['video_name']?></h5>
+			</div>
+			<div class="col-md-8">
+				<video width="100%" height="240" controls>
+					<source src="<?php echo $fetch['location']?>">
+				</video>
+			</div>
+			<br style="clear:both;"/>
+			<hr style="border-top:1px groovy #000;"/>
+		</div>
+		<?php
+			}
+		?>
+	</div>
+	<div class="modal fade" id="form_modal" aria-hidden="true">
+		<div class="modal-dialog">
+			<form action="save_video.php" method="POST" enctype="multipart/form-data">
+				<div class="modal-content">
+					<div class="modal-body">
+						<div class="col-md-3"></div>
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>Video File</label>
+								<input type="file" name="video"  class="form-control-file"/>
+							</div>
+						</div>
+					</div>
+					<div style="clear:both;"></div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+						<button name="save" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Save</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
 </body>
 </html>

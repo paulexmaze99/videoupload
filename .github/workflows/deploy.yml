@@ -1,0 +1,25 @@
+name: Deploy to Wasmer Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Wasmer CLI
+      run: |
+        curl https://get.wasmer.io -sSfL | sh
+        echo "$HOME/.wasmer/bin" >> $GITHUB_PATH
+
+    - name: Log in to Wasmer (using token)
+      run: wasmer login --token ${{ secrets.WASMER_TOKEN }}
+
+    - name: Deploy to Wasmer
+      run: wasmer deploy
